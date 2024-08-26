@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PadigalAPI.Models
@@ -9,15 +10,25 @@ namespace PadigalAPI.Models
         public int Id { get; set; }
 
         [Required]
-        public string Address { get; set; }
+        [StringLength(250)]
+        public string AddressLine { get; set; }
 
-        public string? Neighborhood { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Neighborhood { get; set; }
 
-        public string? Zone { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Zone { get; set; }
 
+        [Required]
+        public DateTime RegistrationDate { get; set; }
+
+        public bool IsActive { get; set; }
+
+        // Foreign key
         [ForeignKey("Client")]
         public int ClientId { get; set; }
-
         public Client Client { get; set; }
     }
 }

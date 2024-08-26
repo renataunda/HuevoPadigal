@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PadigalAPI.Models
 {
@@ -8,33 +11,34 @@ namespace PadigalAPI.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [Required]
-        public string Phone { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         [Required]
-        public string Address { get; set; }
+        [StringLength(100)]
+        [EmailAddress]
+        public string Email { get; set; }
 
-        public string? Neighborhood { get; set; }
+        public bool IsActive { get; set; }
 
-        public string? Zone { get; set; }
+        public string Notes { get; set; }
 
-        public string? DeliveryDays { get; set; }
-
-        public string? DeliveryFrequency { get; set; }
-
-        public int? ScheduledQuantity { get; set; }
-
-        public string? FirstTimeProduct { get; set; }
-
-        public string? Notes { get; set; }
-
-        public int? Year { get; set; }
+        [Required]
+        public ClientType ClientType { get; set; }
 
         // Navigation properties for multiple addresses and phone numbers
         public ICollection<ClientAddress> Addresses { get; set; } = new List<ClientAddress>();
 
         public ICollection<ClientPhone> PhoneNumbers { get; set; } = new List<ClientPhone>();
+    }
+
+    public enum ClientType
+    {
+        Mayorista,
+        Minorista,
+        Otro
     }
 }
