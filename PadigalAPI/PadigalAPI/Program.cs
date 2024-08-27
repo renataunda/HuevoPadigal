@@ -1,15 +1,10 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using PadigalAPI.Converters;
 using PadigalAPI.Data;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using PadigalAPI.Mappers;
 using PadigalAPI.Repositories;
 using PadigalAPI.Services;
-using PadigalAPI.Mappers;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 

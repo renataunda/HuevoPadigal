@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using PadigalAPI.DTOs;
 using PadigalAPI.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PadigalAPI.Mappers
 {

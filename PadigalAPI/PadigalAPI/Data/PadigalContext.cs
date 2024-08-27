@@ -3,7 +3,7 @@ using PadigalAPI.Models;
 
 namespace PadigalAPI.Data
 {
-    public class PadigalContext: DbContext
+    public class PadigalContext : DbContext
     {
         public PadigalContext(DbContextOptions<PadigalContext> options)
        : base(options)

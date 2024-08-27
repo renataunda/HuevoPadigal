@@ -14,5 +14,4 @@ namespace PadigalAPI.DTOs
         public List<PhoneDto> PhoneNumbers { get; set; } = new List<PhoneDto>();
         public List<AddressDto> Addresses { get; set; } = new List<AddressDto>();
     }
-
 }

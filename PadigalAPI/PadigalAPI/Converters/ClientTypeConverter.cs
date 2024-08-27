@@ -1,11 +1,10 @@
-﻿using PadigalAPI.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
+using PadigalAPI.Models;
 
 namespace PadigalAPI.Converters
 {
-  
+
 
     public class ClientTypeConverter : StringEnumConverter
     {
