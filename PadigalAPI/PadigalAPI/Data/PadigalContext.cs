@@ -10,7 +10,6 @@ namespace PadigalAPI.Data
         {
         }
 
-        public DbSet<Venta> Ventas { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<ClientAddress> ClientAddresses { get; set; }
@@ -18,9 +17,6 @@ namespace PadigalAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Venta>()
-                .Property(v => v.Precio)
-                .HasColumnType("decimal(18,2)"); // Especifica la precisión y escala
 
             modelBuilder.Entity<Client>()
         .HasMany(c => c.Addresses)
