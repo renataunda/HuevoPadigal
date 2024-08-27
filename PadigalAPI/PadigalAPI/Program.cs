@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PadigalAPI.Converters;
 using PadigalAPI.Data;
 using PadigalAPI.Mappers;
@@ -27,6 +28,25 @@ builder.Services.AddControllers()
         // Agregar el conversor personalizado para ClientType
         options.SerializerSettings.Converters.Add(new ClientTypeConverter());
     });
+
+// Agregar servicios a la colección (antes de 'builder.Build()')
+builder.Services.AddControllers();
+
+// Agregar Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "PadigalAPI",
+        Version = "v1",
+        Description = "API documentation for Padigal",
+        Contact = new OpenApiContact
+        {
+            Name = "Renata Aparicio",
+            Email = "renataunda11@gmail.com",
+        }
+    });
+});
 
 // Registrar los servicios y repositorios
 builder.Services.AddScoped<IClientService, ClientService>();
@@ -63,6 +83,17 @@ app.UseExceptionHandler(errorApp =>
         }
     });
 });
+
+// Configurar Swagger (después de 'app.UseRouting()')
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PadigalAPI v1");
+        c.RoutePrefix = string.Empty; // Para que Swagger esté en la raíz (localhost:<puerto>/)
+    });
+}
 
 // Configurar el enrutamiento de controladores
 app.UseRouting();
