@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PadigalAPI.DTOs;
+using PadigalAPI.Exceptions;
 using PadigalAPI.Services;
 using System.Net;
 
@@ -16,43 +17,58 @@ namespace PadigalAPI.Controllers
             _clientService = clientService;
         }
 
-        // GET: api/clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientDto>> GetClient(int id)
         {
-            var client = await _clientService.GetClientByIdAsync(id);
-
-            if (client == null)
+            try
             {
-                return NotFound();
+                var client = await _clientService.GetClientByIdAsync(id);
+                return Ok(client);
             }
-
-            return Ok(client);
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // POST: api/clients
         [HttpPost]
         public async Task<IActionResult> CreateClient([FromBody] ClientDto clientDto)
         {
             if (clientDto == null)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Client data cannot be null" });
             }
 
-            var client = await _clientService.CreateClientAsync(clientDto);
-            return CreatedAtAction(nameof(GetClient), new { id = client.Id }, client);
+            try
+            {
+                var client = await _clientService.CreateClientAsync(clientDto);
+                return CreatedAtAction(nameof(GetClient), new { id = client.Id }, client);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // DELETE: api/clients/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
-            var result = await _clientService.DeleteClientAsync(id);
-            if (!result) return NotFound();
-            return NoContent();
+            try
+            {
+                var result = await _clientService.DeleteClientAsync(id);
+                if (!result) return NotFound(new { message = "Client not found" });
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // PUT: api/clients/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(int id, [FromBody] ClientDto clientDto)
         {
@@ -61,46 +77,60 @@ namespace PadigalAPI.Controllers
                 return BadRequest("Client ID mismatch.");
             }
 
-            var updatedClient = await _clientService.UpdateClientAsync(clientDto);
-
-            if (updatedClient == null)
+            try
             {
-                return NotFound();
+                var updatedClient = await _clientService.UpdateClientAsync(clientDto);
+                if (updatedClient == null) return NotFound(new { message = "Client not found" });
+                return Ok(updatedClient);
             }
-
-            return Ok(updatedClient);
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // GET: api/clients
         [HttpGet]
         public async Task<IActionResult> GetAllClients()
         {
-            var clients = await _clientService.GetAllClientsAsync();
-            return Ok(clients);
+            try
+            {
+                var clients = await _clientService.GetAllClientsAsync();
+                return Ok(clients);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // PUT: api/clients/5/deactivate
         [HttpPut("{id}/deactivate")]
         public async Task<IActionResult> DeactivateClient(int id)
         {
-            var result = await _clientService.DeactivateClientAsync(id);
-            if (!result) return NotFound();
-            return NoContent();
+            try
+            {
+                var result = await _clientService.DeactivateClientAsync(id);
+                if (!result) return NotFound(new { message = "Client not found" });
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
 
-        // PUT: api/clients/5/activate
         [HttpPut("{id}/activate")]
         public async Task<IActionResult> ActivateClient(int id)
         {
-            var result = await _clientService.ActivateClientAsync(id);
-            if (!result) return NotFound();
-            return NoContent();
+            try
+            {
+                var result = await _clientService.ActivateClientAsync(id);
+                if (!result) return NotFound(new { message = "Client not found" });
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
+            }
         }
-
     }
-
-
-
-
-
 }
