@@ -6,6 +6,7 @@ using PadigalAPI.Data;
 using PadigalAPI.Mappers;
 using PadigalAPI.Repositories;
 using PadigalAPI.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,13 @@ builder.Services.AddSwaggerGen(c =>
             Email = "renataunda11@gmail.com",
         }
     });
+
+    // Obtener la ruta del archivo XML
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    // Incluir los comentarios XML en Swagger
+    c.IncludeXmlComments(xmlPath);
 });
 
 // Registrar los servicios y repositorios

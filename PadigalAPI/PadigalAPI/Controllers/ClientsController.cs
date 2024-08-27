@@ -6,17 +6,30 @@ using System.Net;
 
 namespace PadigalAPI.Controllers
 {
+    /// <summary>
+    /// API controller for managing clients, including operations like 
+    /// retrieving, creating, updating, and deleting clients.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class ClientsController : ControllerBase
     {
         private readonly IClientService _clientService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientsController"/> class.
+        /// </summary>
+        /// <param name="clientService">The client service used for client operations.</param>
         public ClientsController(IClientService clientService)
         {
             _clientService = clientService;
         }
 
+        /// <summary>
+        /// Retrieves client data (including phones and addresses) by the specified id.
+        /// </summary>
+        /// <param name="id">The id of the client to retrieve.</param>
+        /// <returns>The DTO containing the client data.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientDto>> GetClient(int id)
         {
@@ -35,6 +48,11 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new client with the provided data.
+        /// </summary>
+        /// <param name="clientDto">The DTO containing the client data to create.</param>
+        /// <returns>The created client DTO with the assigned ID.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateClient([FromBody] ClientDto clientDto)
         {
@@ -54,6 +72,11 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a client by the specified id.
+        /// </summary>
+        /// <param name="id">The id of the client to delete.</param>
+        /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
@@ -69,6 +92,12 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing client with the provided data.
+        /// </summary>
+        /// <param name="id">The id of the client to update.</param>
+        /// <param name="clientDto">The DTO containing the updated client data.</param>
+        /// <returns>The updated client DTO, or a not found or error result.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(int id, [FromBody] ClientDto clientDto)
         {
@@ -89,6 +118,10 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a list of all clients.
+        /// </summary>
+        /// <returns>A list of client DTOs.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllClients()
         {
@@ -103,6 +136,11 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deactivates a client by the specified id.
+        /// </summary>
+        /// <param name="id">The id of the client to deactivate.</param>
+        /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpPut("{id}/deactivate")]
         public async Task<IActionResult> DeactivateClient(int id)
         {
@@ -118,6 +156,11 @@ namespace PadigalAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Activates a client by the specified id.
+        /// </summary>
+        /// <param name="id">The id of the client to activate.</param>
+        /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpPut("{id}/activate")]
         public async Task<IActionResult> ActivateClient(int id)
         {

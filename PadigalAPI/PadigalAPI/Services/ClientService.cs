@@ -6,23 +6,75 @@ using PadigalAPI.Repositories;
 
 namespace PadigalAPI.Services
 {
+    /// <summary>
+    /// Interface for managing client operations.
+    /// </summary>
     public interface IClientService
     {
+        /// <summary>
+        /// Creates a new client.
+        /// </summary>
+        /// <param name="clientDto">The client data transfer object.</param>
+        /// <returns>The created client data transfer object.</returns>
         Task<ClientDto> CreateClientAsync(ClientDto clientDto);
+
+        /// <summary>
+        /// Retrieves a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client.</param>
+        /// <returns>The client data transfer object.</returns>
         Task<ClientDto> GetClientByIdAsync(int id);
+
+        /// <summary>
+        /// Updates an existing client.
+        /// </summary>
+        /// <param name="clientDto">The client data transfer object with updated information.</param>
+        /// <returns>The updated client data transfer object.</returns>
         Task<ClientDto> UpdateClientAsync(ClientDto clientDto);
+
+        /// <summary>
+        /// Retrieves all clients.
+        /// </summary>
+        /// <returns>A list of all client data transfer objects.</returns>
         Task<IEnumerable<ClientDto>> GetAllClientsAsync();
+
+        /// <summary>
+        /// Deletes a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be deleted.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         Task<bool> DeleteClientAsync(int id);
+
+        /// <summary>
+        /// Deactivates a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be deactivated.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         Task<bool> DeactivateClientAsync(int id);
+
+        /// <summary>
+        /// Activates a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be activated.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         Task<bool> ActivateClientAsync(int id);
     }
 
+    /// <summary>
+    /// Service implementation for managing client operations.
+    /// </summary>
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
         private readonly ILogger<ClientService> _logger;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientService"/> class.
+        /// </summary>
+        /// <param name="clientRepository">The repository for client data access.</param>
+        /// <param name="logger">The logger instance for logging errors.</param>
+        /// <param name="mapper">The mapper for converting between entities and DTOs.</param>
         public ClientService(IClientRepository clientRepository, ILogger<ClientService> logger, IMapper mapper)
         {
             _clientRepository = clientRepository;
@@ -30,6 +82,11 @@ namespace PadigalAPI.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Creates a new client.
+        /// </summary>
+        /// <param name="clientDto">The client data transfer object.</param>
+        /// <returns>The created client data transfer object.</returns>
         public async Task<ClientDto> CreateClientAsync(ClientDto clientDto)
         {
             try
@@ -45,6 +102,11 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client.</param>
+        /// <returns>The client data transfer object.</returns>
         public async Task<ClientDto> GetClientByIdAsync(int id)
         {
             try
@@ -53,7 +115,6 @@ namespace PadigalAPI.Services
                 if (client == null)
                 {
                     throw new NotFoundException("Client", id, $"Client with ID {id} not found");
-
                 }
                 return _mapper.Map<ClientDto>(client);
             }
@@ -69,6 +130,11 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Updates an existing client.
+        /// </summary>
+        /// <param name="clientDto">The client data transfer object with updated information.</param>
+        /// <returns>The updated client data transfer object.</returns>
         public async Task<ClientDto> UpdateClientAsync(ClientDto clientDto)
         {
             try
@@ -77,7 +143,6 @@ namespace PadigalAPI.Services
                 if (client == null)
                 {
                     throw new NotFoundException("Client", clientDto.Id, $"Client with ID {clientDto.Id} not found");
-
                 }
 
                 _mapper.Map(clientDto, client);
@@ -96,6 +161,10 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Retrieves all clients.
+        /// </summary>
+        /// <returns>A list of all client data transfer objects.</returns>
         public async Task<IEnumerable<ClientDto>> GetAllClientsAsync()
         {
             try
@@ -110,6 +179,11 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Deletes a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be deleted.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> DeleteClientAsync(int id)
         {
             try
@@ -123,6 +197,11 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Deactivates a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be deactivated.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> DeactivateClientAsync(int id)
         {
             try
@@ -136,6 +215,11 @@ namespace PadigalAPI.Services
             }
         }
 
+        /// <summary>
+        /// Activates a client by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the client to be activated.</param>
+        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> ActivateClientAsync(int id)
         {
             try
