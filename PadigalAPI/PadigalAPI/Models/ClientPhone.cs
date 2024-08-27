@@ -9,7 +9,7 @@ namespace PadigalAPI.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(10)]
         public string PhoneNumber { get; set; }
 
         public bool IsActive { get; set; }

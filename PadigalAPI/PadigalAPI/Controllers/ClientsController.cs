@@ -16,6 +16,20 @@ namespace PadigalAPI.Controllers
             _clientService = clientService;
         }
 
+        // GET: api/clients/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClientDto>> GetClient(int id)
+        {
+            var client = await _clientService.GetClientByIdAsync(id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(client);
+        }
+
         // POST: api/clients
         [HttpPost]
         public async Task<IActionResult> CreateClient([FromBody] ClientDto clientDto)
@@ -29,18 +43,13 @@ namespace PadigalAPI.Controllers
             return CreatedAtAction(nameof(GetClient), new { id = client.Id }, client);
         }
 
-        // GET: api/clients/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ClientDto>> GetClient(int id)
+        // DELETE: api/clients/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteClient(int id)
         {
-            var client = await _clientService.GetClientByIdAsync(id);
-
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(client);
+            var result = await _clientService.DeleteClientAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
         }
 
         // PUT: api/clients/5
@@ -62,6 +71,31 @@ namespace PadigalAPI.Controllers
             return Ok(updatedClient);
         }
 
+        // GET: api/clients
+        [HttpGet]
+        public async Task<IActionResult> GetAllClients()
+        {
+            var clients = await _clientService.GetAllClientsAsync();
+            return Ok(clients);
+        }
+
+        // PUT: api/clients/5/deactivate
+        [HttpPut("{id}/deactivate")]
+        public async Task<IActionResult> DeactivateClient(int id)
+        {
+            var result = await _clientService.DeactivateClientAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
+        }
+
+        // PUT: api/clients/5/activate
+        [HttpPut("{id}/activate")]
+        public async Task<IActionResult> ActivateClient(int id)
+        {
+            var result = await _clientService.ActivateClientAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
+        }
 
     }
 

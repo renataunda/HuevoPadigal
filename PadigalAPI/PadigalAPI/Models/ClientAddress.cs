@@ -21,9 +21,6 @@ namespace PadigalAPI.Models
         [StringLength(100)]
         public string Zone { get; set; }
 
-        [Required]
-        public DateTime RegistrationDate { get; set; }
-
         public bool IsActive { get; set; }
 
         // Foreign key

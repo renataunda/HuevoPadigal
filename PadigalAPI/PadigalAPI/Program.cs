@@ -7,8 +7,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PadigalAPI.Repositories;
 using PadigalAPI.Services;
+using PadigalAPI.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Agregar AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Configurar la cadena de conexión a la base de datos usando PadigalContext
 builder.Services.AddDbContext<PadigalContext>(options =>

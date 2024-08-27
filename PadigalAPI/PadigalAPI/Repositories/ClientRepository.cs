@@ -9,7 +9,10 @@ namespace PadigalAPI.Repositories
         Task<Client> GetClientByIdAsync(int id);
         Task<Client> CreateClientAsync(Client client);
         Task UpdateClientAsync(Client client);
-        Task DeleteClientAsync(int id); // Método agregado para eliminar clientes
+        Task<IEnumerable<Client>> GetAllClientsAsync();
+        Task<bool> DeleteClientAsync(int id);
+        Task<bool> DeactivateClientAsync(int id);
+        Task<bool> ActivateClientAsync(int id);
     }
 
     public class ClientRepository : IClientRepository
@@ -42,14 +45,45 @@ namespace PadigalAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteClientAsync(int id) // Implementación para eliminar cliente
+       
+
+        public async Task<IEnumerable<Client>> GetAllClientsAsync()
+        {
+            return await _context.Clients
+                .Include(c => c.PhoneNumbers)
+                .Include(c => c.Addresses)
+                .ToListAsync();
+        }
+
+        public async Task<bool> DeleteClientAsync(int id)
         {
             var client = await _context.Clients.FindAsync(id);
-            if (client != null)
-            {
-                _context.Clients.Remove(client);
-                await _context.SaveChangesAsync();
-            }
+            if (client == null) return false;
+
+            _context.Clients.Remove(client);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+     
+        public async Task<bool> DeactivateClientAsync(int id)
+        {
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null) return false;
+
+            client.IsActive = false;
+            _context.Clients.Update(client);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> ActivateClientAsync(int id)
+        {
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null) return false;
+
+            client.IsActive = true;
+            _context.Clients.Update(client);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

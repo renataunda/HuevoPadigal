@@ -11,7 +11,7 @@ namespace PadigalAPI.DTOs
         public bool IsActive { get; set; }
         public string Notes { get; set; }
         public ClientType ClientType { get; set; }
-        public List<PhoneDto> Phones { get; set; } = new List<PhoneDto>();
+        public List<PhoneDto> PhoneNumbers { get; set; } = new List<PhoneDto>();
         public List<AddressDto> Addresses { get; set; } = new List<AddressDto>();
     }
 
