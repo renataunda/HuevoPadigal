@@ -14,14 +14,17 @@ namespace PadigalAPI.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly ILogger<ClientsController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientsController"/> class.
         /// </summary>
         /// <param name="clientService">The client service used for client operations.</param>
-        public ClientsController(IClientService clientService)
+        /// <param name="logger">The logger for logging information and errors.</param>
+        public ClientsController(IClientService clientService, ILogger<ClientsController> logger)
         {
             _clientService = clientService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -39,10 +42,12 @@ namespace PadigalAPI.Controllers
             }
             catch (NotFoundException ex)
             {
+                _logger.LogWarning(ex, "Client not found with ID {Id}", id);
                 return NotFound(new { message = ex.Message });
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while retrieving client with ID {Id}", id);
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -57,6 +62,7 @@ namespace PadigalAPI.Controllers
         {
             if (clientDto == null)
             {
+                _logger.LogWarning("Attempted to create a client with null data.");
                 return BadRequest(new { message = "Client data cannot be null" });
             }
 
@@ -67,6 +73,7 @@ namespace PadigalAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while creating a client.");
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -82,11 +89,16 @@ namespace PadigalAPI.Controllers
             try
             {
                 var result = await _clientService.DeleteClientAsync(id);
-                if (!result) return NotFound(new { message = "Client not found" });
+                if (!result)
+                {
+                    _logger.LogWarning("Attempted to delete non-existing client with ID {Id}", id);
+                    return NotFound(new { message = "Client not found" });
+                }
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while deleting client with ID {Id}", id);
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -102,17 +114,23 @@ namespace PadigalAPI.Controllers
         {
             if (id != clientDto.Id)
             {
+                _logger.LogWarning("Client ID mismatch: received ID {Id} does not match DTO ID {DtoId}", id, clientDto.Id);
                 return BadRequest("Client ID mismatch.");
             }
 
             try
             {
                 var updatedClient = await _clientService.UpdateClientAsync(clientDto);
-                if (updatedClient == null) return NotFound(new { message = "Client not found" });
+                if (updatedClient == null)
+                {
+                    _logger.LogWarning("Attempted to update non-existing client with ID {Id}", id);
+                    return NotFound(new { message = "Client not found" });
+                }
                 return Ok(updatedClient);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while updating client with ID {Id}", id);
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -131,6 +149,7 @@ namespace PadigalAPI.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while retrieving all clients.");
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -146,11 +165,16 @@ namespace PadigalAPI.Controllers
             try
             {
                 var result = await _clientService.DeactivateClientAsync(id);
-                if (!result) return NotFound(new { message = "Client not found" });
+                if (!result)
+                {
+                    _logger.LogWarning("Attempted to deactivate non-existing client with ID {Id}", id);
+                    return NotFound(new { message = "Client not found" });
+                }
                 return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while deactivating client with ID {Id}", id);
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
@@ -166,11 +190,16 @@ namespace PadigalAPI.Controllers
             try
             {
                 var result = await _clientService.ActivateClientAsync(id);
-                if (!result) return NotFound(new { message = "Client not found" });
+                if (!result)
+                {
+                    _logger.LogWarning("Attempted to activate non-existing client with ID {Id}", id);
+                    return NotFound(new { message = "Client not found" });
+                }
                 return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unexpected error occurred while activating client with ID {Id}", id);
                 return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "An unexpected error occurred.", detailed = ex.Message });
             }
         }
