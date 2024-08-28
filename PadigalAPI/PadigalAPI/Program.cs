@@ -26,8 +26,15 @@ builder.Services.AddDbContext<PadigalContext>(options =>
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
+
+        // Agregar el conversor personalizado para ProductType
+        options.SerializerSettings.Converters.Add(new ProductTypeConverter());
         // Agregar el conversor personalizado para ClientType
         options.SerializerSettings.Converters.Add(new ClientTypeConverter());
+        // Agregar el conversor personalizado para Frequency
+        options.SerializerSettings.Converters.Add(new FrequencyConverter());
+        // Agregar el conversor personalizado para PaymentType
+        options.SerializerSettings.Converters.Add(new PaymentTypeConverter());
     });
 
 // Agregar servicios a la colección (antes de 'builder.Build()')
@@ -59,6 +66,8 @@ builder.Services.AddSwaggerGen(c =>
 // Registrar los servicios y repositorios
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 
