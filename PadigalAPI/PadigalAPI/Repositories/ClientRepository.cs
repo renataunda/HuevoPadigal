@@ -3,9 +3,6 @@ using PadigalAPI.Data;
 using PadigalAPI.Models;
 namespace PadigalAPI.Repositories
 {
-    /// <summary>
-    /// Interface for client repository operations.
-    /// </summary>
     public interface IClientRepository
     {
         /// <summary>
@@ -56,30 +53,18 @@ namespace PadigalAPI.Repositories
         Task<bool> ActivateClientAsync(int id);
     }
 
-    /// <summary>
-    /// Repository implementation for managing client data in the database.
-    /// </summary>
+    /// <inheritdoc />
     public class ClientRepository : IClientRepository
     {
         private readonly PadigalContext _context;
         private readonly ILogger<ClientRepository> _logger;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClientRepository"/> class.
-        /// </summary>
-        /// <param name="context">The database context.</param>
-        /// <param name="logger">The logger instance for logging errors.</param>
         public ClientRepository(PadigalContext context, ILogger<ClientRepository> logger)
         {
             _context = context;
             _logger = logger;
         }
 
-        /// <summary>
-        /// Creates a new client in the database.
-        /// </summary>
-        /// <param name="client">The client entity to create.</param>
-        /// <returns>The created client entity.</returns>
         public async Task<Client> CreateClientAsync(Client client)
         {
             try
@@ -95,11 +80,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Retrieves a client by its ID from the database.
-        /// </summary>
-        /// <param name="id">The ID of the client.</param>
-        /// <returns>The client entity.</returns>
         public async Task<Client> GetClientByIdAsync(int id)
         {
             try
@@ -116,10 +96,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Updates an existing client in the database.
-        /// </summary>
-        /// <param name="client">The client entity with updated information.</param>
         public async Task UpdateClientAsync(Client client)
         {
             try
@@ -134,10 +110,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Retrieves all clients from the database.
-        /// </summary>
-        /// <returns>A list of all client entities.</returns>
         public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
             try
@@ -154,11 +126,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Deletes a client by its ID from the database.
-        /// </summary>
-        /// <param name="id">The ID of the client to delete.</param>
-        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> DeleteClientAsync(int id)
         {
             try
@@ -177,11 +144,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Deactivates a client by its ID in the database.
-        /// </summary>
-        /// <param name="id">The ID of the client to deactivate.</param>
-        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> DeactivateClientAsync(int id)
         {
             try
@@ -201,11 +163,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Activates a client by its ID in the database.
-        /// </summary>
-        /// <param name="id">The ID of the client to activate.</param>
-        /// <returns>A boolean indicating success or failure.</returns>
         public async Task<bool> ActivateClientAsync(int id)
         {
             try

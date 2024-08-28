@@ -18,7 +18,7 @@ builder.Logging.AddDebug();
 // Agregar AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// Configurar la cadena de conexión a la base de datos usando PadigalContext
+// Configurar la cadena de conexiÃ³n a la base de datos usando PadigalContext
 builder.Services.AddDbContext<PadigalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -26,11 +26,17 @@ builder.Services.AddDbContext<PadigalContext>(options =>
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
+        // Agregar el conversor personalizado para ProductType
+        options.SerializerSettings.Converters.Add(new ProductTypeConverter());
         // Agregar el conversor personalizado para ClientType
         options.SerializerSettings.Converters.Add(new ClientTypeConverter());
+        // Agregar el conversor personalizado para Frequency
+        options.SerializerSettings.Converters.Add(new FrequencyConverter());
+        // Agregar el conversor personalizado para PaymentType
+        options.SerializerSettings.Converters.Add(new PaymentTypeConverter());
     });
 
-// Agregar servicios a la colección (antes de 'builder.Build()')
+// Agregar servicios a la colecciÃ³n (antes de 'builder.Build()')
 builder.Services.AddControllers();
 
 // Agregar Swagger
@@ -59,6 +65,8 @@ builder.Services.AddSwaggerGen(c =>
 // Registrar los servicios y repositorios
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 
@@ -67,7 +75,7 @@ app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
     {
-        context.Response.StatusCode = 500; // Código de estado por defecto para errores del servidor
+        context.Response.StatusCode = 500; // CÃ³digo de estado por defecto para errores del servidor
         context.Response.ContentType = "application/json";
 
         var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
@@ -92,14 +100,14 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-// Configurar Swagger (después de 'app.UseRouting()')
+// Configurar Swagger (despuÃ©s de 'app.UseRouting()')
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "PadigalAPI v1");
-        c.RoutePrefix = string.Empty; // Para que Swagger esté en la raíz (localhost:<puerto>/)
+        c.RoutePrefix = string.Empty; // Para que Swagger estÃ© en la raÃ­z (localhost:<puerto>/)
     });
 }
 
@@ -110,7 +118,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-// Punto de inicio de la aplicación
+// Punto de inicio de la aplicaciÃ³n
 app.MapGet("/", () => "API is running...");
 
 app.Run();

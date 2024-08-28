@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using PadigalAPI.DTOs;
 using PadigalAPI.Models;
 
@@ -11,6 +11,7 @@ namespace PadigalAPI.Mappers
             CreateMap<Client, ClientDto>().ReverseMap();
             CreateMap<ClientPhone, PhoneDto>().ReverseMap();
             CreateMap<ClientAddress, AddressDto>().ReverseMap();
+            CreateMap<Sale, SaleDto>().ReverseMap();
         }
     }
 
