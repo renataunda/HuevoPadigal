@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PadigalAPI.DTOs;
 using PadigalAPI.Exceptions;
 using PadigalAPI.Services;

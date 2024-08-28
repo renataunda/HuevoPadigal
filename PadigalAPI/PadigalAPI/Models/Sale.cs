@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using PadigalAPI.Converters;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -46,6 +46,7 @@ namespace PadigalAPI.Models
 
         [Required]
         public bool IsPaid { get; set; }
+      
         public string Notes { get; set; }
 
         // Relationship with Client
@@ -54,6 +55,7 @@ namespace PadigalAPI.Models
 
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
+        
         // Store the specific phone number and address IDs for this sale
         [Required]
         public int PhoneNumberId { get; set; }
@@ -67,6 +69,7 @@ namespace PadigalAPI.Models
         [ForeignKey("AddressId")]
         public ClientAddress Address { get; set; }
     }
+  
     public enum ProductType
     {
         Docena,
@@ -89,5 +92,4 @@ namespace PadigalAPI.Models
         Credito,
         Otro
     }
-
 }
