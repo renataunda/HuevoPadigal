@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using PadigalAPI.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace PadigalAPI.Models
 {
@@ -24,6 +26,8 @@ namespace PadigalAPI.Models
         public string Notes { get; set; }
 
         [Required]
+
+        [JsonConverter(typeof(ClientTypeConverter))]
         public ClientType ClientType { get; set; }
 
         // Navigation properties for multiple addresses and phone numbers

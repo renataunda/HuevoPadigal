@@ -4,8 +4,6 @@ using PadigalAPI.Models;
 
 namespace PadigalAPI.Converters
 {
-
-
     public class ClientTypeConverter : StringEnumConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

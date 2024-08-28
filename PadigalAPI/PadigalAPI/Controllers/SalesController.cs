@@ -5,7 +5,7 @@ using PadigalAPI.Services;
 namespace PadigalAPI.Controllers
 {
     /// <summary>
-    /// Controller for managing sales.
+    /// api/sales
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]

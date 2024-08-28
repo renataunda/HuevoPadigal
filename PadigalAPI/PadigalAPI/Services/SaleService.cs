@@ -6,9 +6,6 @@ using PadigalAPI.Repositories;
 
 namespace PadigalAPI.Services
 {
-    /// <summary>
-    /// Service interface for handling sales operations.
-    /// </summary>
     public interface ISaleService
     {
         /// <summary>
@@ -46,9 +43,7 @@ namespace PadigalAPI.Services
         Task<bool> DeleteSaleAsync(int id);
     }
 
-    /// <summary>
-    /// Service implementation for handling sales operations.
-    /// </summary>
+    /// <inheritdoc />
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _saleRepository;
@@ -62,7 +57,6 @@ namespace PadigalAPI.Services
             _logger = logger;
         }
 
-        /// <inheritdoc />
         public async Task<SaleDto> CreateSaleAsync(SaleDto saleDto)
         {
             try
@@ -78,7 +72,6 @@ namespace PadigalAPI.Services
             }
         }
 
-        /// <inheritdoc />
         public async Task<SaleDto> GetSaleByIdAsync(int id)
         {
             try
@@ -102,7 +95,6 @@ namespace PadigalAPI.Services
             }
         }
 
-        /// <inheritdoc />
         public async Task<SaleDto> UpdateSaleAsync(SaleDto saleDto)
         {
             try
@@ -129,8 +121,6 @@ namespace PadigalAPI.Services
             }
         }
 
-
-        /// <inheritdoc />
         public async Task<IEnumerable<SaleDto>> GetAllSalesAsync()
         {
             try
@@ -145,7 +135,6 @@ namespace PadigalAPI.Services
             }
         }
 
-        /// <inheritdoc />
         public async Task<bool> DeleteSaleAsync(int id)
         {
             try

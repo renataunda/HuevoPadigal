@@ -40,6 +40,7 @@ namespace PadigalAPI.Repositories
         Task<bool> DeleteSaleAsync(int id);
     }
 
+    /// <inheritdoc />
     public class SaleRepository : ISaleRepository
     {
         private readonly PadigalContext _context;
@@ -51,11 +52,6 @@ namespace PadigalAPI.Repositories
             _logger = logger;
         }
 
-        /// <summary>
-        /// Retrieves a Sale by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the Sale to retrieve.</param>
-        /// <returns>The Sale object.</returns>
         public async Task<Sale> GetSaleByIdAsync(int id)
         {
             try
@@ -71,10 +67,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Retrieves all Sales.
-        /// </summary>
-        /// <returns>A list of all Sales.</returns>
         public async Task<IEnumerable<Sale>> GetAllSalesAsync()
         {
             try
@@ -90,11 +82,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Creates a new Sale.
-        /// </summary>
-        /// <param name="sale">The Sale object to create.</param>
-        /// <returns>The created Sale object.</returns>
         public async Task<Sale> CreateSaleAsync(Sale sale)
         {
             try
@@ -110,10 +97,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Updates an existing Sale.
-        /// </summary>
-        /// <param name="sale">The Sale object to update.</param>
         public async Task UpdateSaleAsync(Sale sale)
         {
             try
@@ -128,11 +111,6 @@ namespace PadigalAPI.Repositories
             }
         }
 
-        /// <summary>
-        /// Deletes a Sale by its ID.
-        /// </summary>
-        /// <param name="id">The ID of the Sale to delete.</param>
-        /// <returns>True if the Sale was deleted; otherwise, false.</returns>
         public async Task<bool> DeleteSaleAsync(int id)
         {
             try
