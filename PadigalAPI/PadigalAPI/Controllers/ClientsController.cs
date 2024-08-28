@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using PadigalAPI.DTOs;
 using PadigalAPI.Exceptions;
 using PadigalAPI.Services;
@@ -7,8 +7,7 @@ using System.Net;
 namespace PadigalAPI.Controllers
 {
     /// <summary>
-    /// API controller for managing clients, including operations like 
-    /// retrieving, creating, updating, and deleting clients.
+    /// api/clients
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
@@ -84,7 +83,7 @@ namespace PadigalAPI.Controllers
             {
                 var result = await _clientService.DeleteClientAsync(id);
                 if (!result) return NotFound(new { message = "Client not found" });
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {
