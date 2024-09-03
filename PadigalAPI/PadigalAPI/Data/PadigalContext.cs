@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PadigalAPI.Models;
 
 namespace PadigalAPI.Data
 {
-    public class PadigalContext : DbContext
+    public class PadigalContext : IdentityDbContext<ApplicationUser>
     {
         public PadigalContext(DbContextOptions<PadigalContext> options)
        : base(options)
