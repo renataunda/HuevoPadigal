@@ -3,18 +3,18 @@ using System.Net.Mail;
 
 namespace PadigalAPI.Services
 {
-    public interface IEmailSender
+    public interface IEmailService
     {
         Task SendEmailAsync(string email, string subject, string message);
     }
 
-    public class EmailSender : IEmailSender
+    public class EmailService : IEmailService
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
             var smtpClient = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("renataunda11@gmail.com", "jahd snlq nitf dbue"),
+                Credentials = new NetworkCredential(YourEmail, YourPassword), // TODO add email and password
                 EnableSsl = true
             };
 
