@@ -6,11 +6,20 @@ using System.Text;
 
 namespace PadigalAPI.Services
 {
+    /// <summary>
+    /// Provides methods for generating JWT tokens.
+    /// </summary>
     public interface ITokenService
     {
+        /// <summary>
+        /// Generates a JWT token for the specified user.
+        /// </summary>
+        /// <param name="user">The user for whom the token is being generated.</param>
+        /// <returns>The generated JWT token.</returns>
         string GenerateToken(ApplicationUser user);
     }
 
+    /// <inheritdoc />
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
