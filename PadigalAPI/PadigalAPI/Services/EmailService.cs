@@ -24,8 +24,8 @@ namespace PadigalAPI.Services
     {
 
         private readonly ILogger<EmailService> _logger;
-        private readonly string _yourEmail = ""; // TODO: Add your email address
-        private readonly string _yourPassword = ""; // TODO: Add your email password
+        private readonly string _yourEmail = "renataunda11@gmail.com"; // TODO: Add your email address
+        private readonly string _yourPassword = "jahd snlq nitf dbue"; // TODO: Add your email password
 
         /// <summary>
         /// Initializes a new instance of <see cref="EmailService"/> with the specified logger.

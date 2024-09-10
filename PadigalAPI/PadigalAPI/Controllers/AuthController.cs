@@ -49,6 +49,9 @@ namespace PadigalAPI.Controllers
                 return BadRequest(result.Errors);
             }
 
+            // Assign role to user
+            await _userManager.AddToRoleAsync(user, "viewer"); // TODO: Cambiar default role assignment
+
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationLink = Url.Action("ConfirmEmail", "Auth", new { userId = user.Id, token }, Request.Scheme);
 

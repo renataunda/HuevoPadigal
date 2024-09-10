@@ -147,10 +147,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-// Configurar el enrutamiento de controladores
-app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

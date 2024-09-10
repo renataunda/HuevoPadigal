@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PadigalAPI.DTOs;
 using PadigalAPI.Services;
 
@@ -26,6 +27,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The ID of the sale.</param>
         /// <returns>The sale details.</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetSaleById(int id)
         {
             try
@@ -51,6 +53,7 @@ namespace PadigalAPI.Controllers
         /// <param name="saleDto">The sale details.</param>
         /// <returns>The created sale.</returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSale([FromBody] SaleDto saleDto)
         {
             if (saleDto == null)
@@ -77,6 +80,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The ID of the sale to delete.</param>
         /// <returns>A boolean indicating whether the deletion was successful.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSale(int id)
         {
             try
@@ -98,6 +102,7 @@ namespace PadigalAPI.Controllers
         /// <param name="saleDto">The updated sale details.</param>
         /// <returns>The updated sale.</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] SaleDto saleDto)
         {
             if (id != saleDto.Id)
@@ -126,6 +131,7 @@ namespace PadigalAPI.Controllers
         /// </summary>
         /// <returns>A collection of sales.</returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllSales()
         {
             try
