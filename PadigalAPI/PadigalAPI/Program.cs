@@ -1,12 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PadigalAPI.Converters;
 using PadigalAPI.Data;
 using PadigalAPI.Mappers;
+using PadigalAPI.Models;
 using PadigalAPI.Repositories;
 using PadigalAPI.Services;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +26,32 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Configurar la cadena de conexión a la base de datos usando PadigalContext
 builder.Services.AddDbContext<PadigalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<PadigalContext>()
+    .AddDefaultTokenProviders();
+
+// Configure JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
 
 // Configura los servicios
 builder.Services.AddControllers()
@@ -67,6 +98,10 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 
 var app = builder.Build();
 
@@ -111,8 +146,10 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Configurar el enrutamiento de controladores
+app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

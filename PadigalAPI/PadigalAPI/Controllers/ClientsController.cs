@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PadigalAPI.DTOs;
 using PadigalAPI.Exceptions;
@@ -33,6 +34,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The id of the client to retrieve.</param>
         /// <returns>The DTO containing the client data.</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ClientDto>> GetClient(int id)
         {
             try
@@ -58,6 +60,7 @@ namespace PadigalAPI.Controllers
         /// <param name="clientDto">The DTO containing the client data to create.</param>
         /// <returns>The created client DTO with the assigned ID.</returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateClient([FromBody] ClientDto clientDto)
         {
             if (clientDto == null)
@@ -84,6 +87,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The id of the client to delete.</param>
         /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteClient(int id)
         {
             try
@@ -110,6 +114,7 @@ namespace PadigalAPI.Controllers
         /// <param name="clientDto">The DTO containing the updated client data.</param>
         /// <returns>The updated client DTO, or a not found or error result.</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateClient(int id, [FromBody] ClientDto clientDto)
         {
             if (id != clientDto.Id)
@@ -140,6 +145,7 @@ namespace PadigalAPI.Controllers
         /// </summary>
         /// <returns>A list of client DTOs.</returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllClients()
         {
             try
@@ -160,6 +166,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The id of the client to deactivate.</param>
         /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpPut("{id}/deactivate")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeactivateClient(int id)
         {
             try
@@ -185,6 +192,7 @@ namespace PadigalAPI.Controllers
         /// <param name="id">The id of the client to activate.</param>
         /// <returns>No content if successful, otherwise a not found or error result.</returns>
         [HttpPut("{id}/activate")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActivateClient(int id)
         {
             try
